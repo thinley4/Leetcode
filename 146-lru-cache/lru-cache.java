@@ -23,6 +23,9 @@ class LRUCache {
         this.cache = new HashMap<>();
         this.oldest = new Node(0, 0);
         this.latest = new Node(0, 0);
+        // oldest & latest are doubly linked List
+        // Latest -> right
+        // oldest -> left
         this.oldest.next = this.latest;
         this.latest.prev = this.oldest;
     }
@@ -30,6 +33,7 @@ class LRUCache {
     public int get(int key) {
         if(cache.containsKey(key)){
             Node node = cache.get(key);
+            // remove() & insert() updates node to most recent
             remove(node);
             insert(node);
             return node.val;
@@ -37,6 +41,7 @@ class LRUCache {
         return -1;        
     }
 
+    // remove node which is located in middle
     private void remove(Node node){
         Node prev = node.prev;
         Node next = node.next;
@@ -59,6 +64,7 @@ class LRUCache {
         Node newNode = new Node(key, value);
         cache.put(key, newNode);
         insert(newNode);
+        // When Capacity exceed
         // remove LRU
         if(cache.size() > cap) {
             Node lru = oldest.next;
