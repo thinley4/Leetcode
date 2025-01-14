@@ -1,30 +1,27 @@
 class Solution {
+    // DP approach
     public String longestPalindrome(String s) {
-        if(s.length() <= 1){
+        if(s.length() <= 1) {
             return s;
         }
-        // Smallest possible palindrom which is single char
-        String maxStr = s.substring(0, 1);
+        int maxLen = 1;
+        int start = 0; 
+        int end = 0;
+        boolean[][] dp = new boolean[s.length()][s.length()];
 
-        for(int i=0; i<s.length()-1; i++){
-            String odd = expand(i, i, s);
-            String even = expand(i, i+1, s);
-
-            if(odd.length() > maxStr.length()){
-                maxStr = odd;
-            }
-            if(even.length() > maxStr.length()){
-                maxStr = even;
+        for(int i=0; i<s.length(); i++){
+            dp[i][i] = true;
+            for(int j=0; j<i; j++){
+                if(s.charAt(j) == s.charAt(i) && (i-j <= 2 || dp[j+1][i-1])) {
+                    dp[j][i] = true;
+                    if(i-j+1 > maxLen) {
+                        maxLen = i-j+1;
+                        start = j;
+                        end = i;
+                    }
+                }
             }
         }
-
-        return maxStr; 
-    }
-    private String expand(int left, int right, String s){
-        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
-            left--;
-            right++;
-        }
-        return s.substring(left+1, right);
+        return s.substring(start, end+1);
     }
 }
