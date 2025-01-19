@@ -1,11 +1,12 @@
 class Solution {
+
+// The trick here is that :
+// Bitwise-AND of any two numbers will always produce a number less than or equal to the smaller number.
+
     public int rangeBitwiseAnd(int left, int right) {
-        int cnt = 0;
-        while(left != right){
-            left >>= 1;
-            right >>= 1;
-            cnt++;
+        while(right > left) {
+            right &= right - 1;
         }
-        return (left << cnt);
+        return right;
     }
 }
