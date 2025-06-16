@@ -21,6 +21,8 @@ class Solution {
                 left = mid + 2;
             }
         }
+        // left or right, any works
+        // return nums[left];
         return nums[right];
     }
 }
