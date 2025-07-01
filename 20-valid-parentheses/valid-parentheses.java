@@ -1,24 +1,26 @@
 class Solution {
     public boolean isValid(String s) {
-        HashMap<Character, Character> map = new HashMap<>();
-        Stack<Character> stack = new Stack<>();
-        map.put(')', '(');
-        map.put('}', '{');
-        map.put(']', '[');
+        Stack<Character> stk = new Stack<>();
+        int n = s.length();
+        // iterate in string
+        for(int i=0; i<n; i++) {
+            // if stack is empty and close bracket return false
+            if(stk.empty() && ( s.charAt(i) == ')' || s.charAt(i) == '}' || s.charAt(i) == ']' ) )
+                return false;
 
-        for(int i=0; i<s.length(); i++) {
-            // if open push in stack
-            char c = s.charAt(i);
-            if(map.containsValue(c)) {
-                stack.push(c);
-            } else if(map.containsKey(c)) {
-                // close bracket
-                if(stack.isEmpty() || stack.pop() != map.get(c)) {
-                    // if empty OR ')' NOT '('
-                    return false;
+            if(s.charAt(i) == '(' || s.charAt(i) == '{' || s.charAt(i) == '[')  {
+                stk.push(s.charAt(i));
+            } else {
+            // for close bracket
+            // validate matching
+                if( (s.charAt(i) == ')' && stk.peek() == '(' ) || (s.charAt(i) == '}' && stk.peek()=='{' ) || (s.charAt(i) == ']' && stk.peek() == '[' ) ) {
+                    stk.pop();
+                } else {
+                    stk.push(s.charAt(i));
                 }
             }
         }
-        return stack.isEmpty();
+
+        return stk.empty();
     }
 }
