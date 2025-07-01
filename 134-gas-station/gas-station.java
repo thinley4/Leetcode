@@ -1,21 +1,32 @@
 class Solution {
     public int canCompleteCircuit(int[] gas, int[] cost) {
-        // iterate in all gas station
+        // compare prefix of gas and cost
         int n = gas.length;
-        int s = 0; // surplus
-        int d = 0; // depicit
-        int startStation = 0; // start station
+        int prefixSumGas = 0;
+        int prefixSumCost = 0;
 
         for(int i=0; i<n; i++) {
-            s += gas[i];
-            if(s >= cost[i])
-                s -= cost[i]; // deduct cost
-            else {
-                d += (cost[i] - s);
-                s = 0;
-                startStation = i+1; // Change starting index
+            prefixSumGas += gas[i];
+            prefixSumCost += cost[i];
+        }
+
+        if(prefixSumGas < prefixSumCost)
+            return -1;
+        
+        // prefix sum of gas is not smaller then prefix sum of cost
+
+        int currVal = 0;
+        int start = 0;
+        for(int i=0; i<n; i++) {
+            currVal += gas[i]-cost[i];
+
+            // if don't have enought fuel to go next place
+            // change start index to (i+1) & Initialize currVal = 0
+            if(currVal < 0) {
+                start = i+1;
+                currVal = 0;
             }
         }
-        return s >= d ? startStation : -1;
+        return start;
     }
 }
