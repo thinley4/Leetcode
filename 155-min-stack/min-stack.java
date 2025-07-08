@@ -1,35 +1,37 @@
 class MinStack {
-    private List<int[]> stk;
+    List<int[]> stack = new ArrayList<>();
 
     public MinStack() {
-        stk = new ArrayList<>();
+        
     }
     
     public void push(int val) {
-        // if empty push, else check and compare and push smaller
-        int[] top;
-        if(stk.isEmpty()) 
-            top = new int[]{val, val};
-        else {
-            // if not empty check stack and compare
-            top = stk.get(stk.size() - 1);
+        // empty push val & minVal
+        if(stack.isEmpty()) {
+            stack.add(new int[] {val, val});
         }
-        int min_val = top[1];
-        if(min_val > val)
-            min_val = val;
-        stk.add(new int[] {val, min_val});
+        // Not empty, compare with stack top min and curr min
+        else {
+            int minVal = Integer.MIN_VALUE;
+            int size = stack.size();
+            int min = stack.get(size - 1)[1];
+
+            minVal = Math.min(val, min);
+            stack.add(new int[] {val, minVal});
+        }
     }
     
     public void pop() {
-        stk.remove(stk.size()-1);
+        int size = stack.size();
+        stack.remove(size-1);
     }
     
     public int top() {
-        return stk.isEmpty() ? -1 : stk.get(stk.size()-1)[0];
+        return stack.get(stack.size()-1)[0];
     }
     
     public int getMin() {
-        return stk.isEmpty() ? -1 : stk.get(stk.size()-1)[1];
+        return stack.get(stack.size()-1)[1];
     }
 }
 
