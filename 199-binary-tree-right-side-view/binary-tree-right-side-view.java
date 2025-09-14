@@ -14,33 +14,30 @@
  * }
  */
 class Solution {
-    List<Integer> res = new ArrayList<>();
-    
-    public void helper(TreeNode root) {
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
         Queue<TreeNode> q = new LinkedList<>();
-        
+
         if(root != null)
-            q.add(root);
+            q.offer(root);
         
         while(!q.isEmpty()) {
             int size = q.size();
-            TreeNode currQueue = null;
-            // inner loop to store left and right of queue
-            while(size > 0) {
-                currQueue = q.poll();
-                size--;
+            int rightMost = 0;
 
-                if(currQueue.left != null)
-                    q.add(currQueue.left);
-                if(currQueue.right != null)
-                    q.add(currQueue.right);
+            for(int i=0; i<size; i++) {
+                TreeNode node = q.poll();
+                rightMost = node.val;
+
+                if(node.left != null)
+                    q.offer(node.left);
+                if(node.right != null)
+                    q.offer(node.right);
             }
-            res.add(currQueue.val);
+            // store righMost in result list
+            res.add(rightMost);
         }
-    }
 
-    public List<Integer> rightSideView(TreeNode root) {
-        helper(root);
         return res;
     }
 }
