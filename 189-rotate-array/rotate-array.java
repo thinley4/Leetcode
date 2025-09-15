@@ -1,15 +1,26 @@
 class Solution {
     public void rotate(int[] nums, int k) {
-        int n = nums.length;
-        int[] rotated = new int[n];
-        k = k % n;
+        int len = nums.length;
+        // if 'k' greater than len
+        k = k % len;
+        int[] res = new int[len];
 
-        for(int i=0; i<n; i++) {
-            rotated[(k+i)%n] = nums[i];
+        // store from 0th index
+        int secondHalfIdx = len-k;
+        for(int i=0; i<k; i++) {
+            res[i] = nums[secondHalfIdx];
+            secondHalfIdx++;
         }
 
-        for(int i=0; i<n; i++) {
-            nums[i] = rotated[i];
+        // store from second half
+        int firstHalfIdx = 0;
+        for(int i=k; i<len; i++) {
+            res[i] = nums[firstHalfIdx];
+            firstHalfIdx++;
+        }
+
+        for(int i=0; i<len; i++) {
+            nums[i] = res[i];
         }
     }
 }
