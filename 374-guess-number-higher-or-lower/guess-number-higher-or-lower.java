@@ -9,22 +9,19 @@
 
 public class Solution extends GuessGame {
     public int guessNumber(int n) {
-        int start = 1;  //start from 1
-        int end = n;    //till n
-        int mid;      //our guess
-        int pick;    //their pick
-       //simple binary search logic
-        while(start <= end){
-            mid = start + (end - start) / 2;
-            pick = guess(mid); //call the predefined method which compares mid and pick and returns values according to it
-            if(pick == 0){
-                return mid;   //if correct guess then return mid
-            }
-            if(pick == -1){
-                end = mid - 1;
-            }
-            else{
-                start = mid + 1;
+        int left=1;
+        int right=n;
+
+        while(left <= right) {
+            int mid = left + (right-left)/2; // our pick 
+            // My guess is higher than num i picked
+            if(guess(mid) == -1) {
+                // righ shift
+                right = mid-1;
+            } else if(guess(mid) == 1) {
+                left = mid+1;
+            } else {
+                return mid;
             }
         }
         return 0;
